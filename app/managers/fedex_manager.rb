@@ -1,0 +1,2 @@
+class FedexManager < DeliveryFacroy
+end
