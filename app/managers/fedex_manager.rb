@@ -23,7 +23,7 @@ class FedexManager < DeliveryFactory
       @fedex.track(:tracking_number => tracking_number)
     rescue => exception
       p exception
-      p "Ocurrer error"
+      DeliveryStatus::EXCEPTION
     end
   end
 
