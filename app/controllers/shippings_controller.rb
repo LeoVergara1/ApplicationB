@@ -1,9 +1,19 @@
 class ShippingsController < ApplicationController
   before_action :set_shipping, only: [:show, :update, :destroy]
 
+  @@fedex_manager = FedexManager.instance
+
   # GET /shippings
   def index
     @shippings = Shipping.all
+
+    # pid = Process.fork do
+    #   puts "start hello"
+    #   sleep 5
+    #   puts "end Hello"
+    #   exit
+    # end
+    @@fedex_manager.find()
 
     render json: @shippings
   end
