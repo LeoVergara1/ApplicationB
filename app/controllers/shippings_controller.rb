@@ -1,7 +1,7 @@
 class ShippingsController < ApplicationController
   before_action :set_shipping, only: [:show, :update, :destroy]
 
-  @@fedex_manager = FedexManager.instance
+  @@bunny_manager = BunnyManager.instance
 
   # GET /shippings
   def index
@@ -11,9 +11,9 @@ class ShippingsController < ApplicationController
     #   puts "start hello"
     #   sleep 5
     #   puts "end Hello"
-    #   exit
     # end
-    @@fedex_manager.find()
+    # Process.wait pid
+    @@bunny_manager.find()
 
     render json: @shippings
   end

@@ -35,11 +35,13 @@ class ParserManagerTest < ActiveSupport::TestCase
   test "track number" do
     ship = @@fedex_manager.ship(initFedexModel)
     tracking_number = ship[:completed_shipment_detail][:master_tracking_id][:tracking_number]
-    p tracking_number
     tracking_info = @@fedex_manager.tracking(tracking_number)
-    p "Error"
-    p tracking_info
-    assert true
+    assert tracking_info == "EXCEPTION"
+  end
+
+  test "chack status delivery" do
+    status = @@fedex_manager.check_status("ON_TRANSIT")
+    assert status == "ON_TRANSIT"
   end
 
   def initFedexModel

@@ -1,6 +1,5 @@
 require 'singleton'
 require 'fedex'
-require "bunny"
 
 class FedexManager < DeliveryFactory
   include Singleton
@@ -12,19 +11,21 @@ class FedexManager < DeliveryFactory
                                  :meter => '119009727',
                                  :mode => 'test')
 
-    @conn = Bunny.new("amqps://csaizoxi:qv_k0WA2C6LxW62pKsOnacjGQhgnBaXN@coyote.rmq.cloudamqp.com/csaizoxi")
-    @conn.start
-    @ch = @conn.create_channel
-    @q  = @ch.queue("brandon")
   end
 
   def tracking(tracking_number)
     begin
-      @fedex.track(:tracking_number => tracking_number)
+      results = @fedex.track(:tracking_number => tracking_number).first
+      tracking_info = results.first
+      check_status(tracking_info.status)
     rescue => exception
       p exception
       DeliveryStatus::EXCEPTION
     end
+  end
+
+  def check_status(status)
+    DeliveryStatus.delivery_status(status) 
   end
 
   def rate(shipping_fedex)
@@ -43,7 +44,20 @@ class FedexManager < DeliveryFactory
       :shipping_options => shipping_fedex.shipping_options)
   end
 
-  def find
-    @q.publish("Hello, everybody #{Time.new}!")
+  def parser_packages_from_json(list_packages)
+    list_packages.collect do |package|
+      {
+        :weight => package["weight"].transform_keys(&:to_sym),
+        :dimensions => package["dimensions"].transform_keys(&:to_sym)
+      }
+    end
+  end
+
+  def parser_body(body)
+    shipper = body["shipper"].transform_keys(&:to_sym)
+    recipient = body["recipient"].transform_keys(&:to_sym)
+    packages = parser_packages_from_json(body["packages"])
+    shipping_options = body["shipping_options"].transform_keys(&:to_sym)
+    ShippingFedex.new(shipper, recipient, packages, shipping_options)
   end
 end
