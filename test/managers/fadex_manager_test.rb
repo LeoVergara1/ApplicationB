@@ -37,6 +37,7 @@ class ParserManagerTest < ActiveSupport::TestCase
     tracking_number = ship[:completed_shipment_detail][:master_tracking_id][:tracking_number]
     p tracking_number
     tracking_info = @@fedex_manager.tracking(tracking_number)
+    p "Error"
     p tracking_info
     assert true
   end
