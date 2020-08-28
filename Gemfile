@@ -41,3 +41,5 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # My gems
 gem 'fedex', '~> 3.10', '>= 3.10.11'
+
+gem "bunny", ">= 2.16.1"
