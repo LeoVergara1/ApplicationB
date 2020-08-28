@@ -7,4 +7,8 @@ class DeliveryFactory
   def delivered
     raise NotImplementedError, "#{self.class} has not implemented method '#{__method__}'"
   end
+
+  def rate
+    raise NotImplementedError, "#{self.class} has not implemented method '#{__method__}'"
+  end
 end
