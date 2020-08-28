@@ -17,7 +17,28 @@ class ParserManagerTest < ActiveSupport::TestCase
       :state => "AR",
       :postal_code => "72601",
       :country_code => "US" }
-    assert shipping_fedex.shipper = shipper
+    assert shipping_fedex.shipper == shipper
+  end
+
+  test "get rate" do
+    shipping_fedex = initFedexModel
+    rate = @@fedex_manager.rate(shipping_fedex).first
+    assert rate.transit_time == "TWO_DAYS"
+  end
+
+
+  test "create ship" do
+    ship = @@fedex_manager.ship(initFedexModel)
+    assert ship[:highest_severity] == "SUCCESS"
+  end
+
+  test "track number" do
+    ship = @@fedex_manager.ship(initFedexModel)
+    tracking_number = ship[:completed_shipment_detail][:master_tracking_id][:tracking_number]
+    p tracking_number
+    tracking_info = @@fedex_manager.tracking(tracking_number)
+    p tracking_info
+    assert true
   end
 
   def initFedexModel
