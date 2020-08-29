@@ -6,5 +6,9 @@ Rails.application.routes.draw do
     get '/satatus_delivery/:delivery/:tracking_number' => 'delivery_tracking#satatus_delivery'
     get '/tracking/:delivery/:tracking_number' => 'delivery_tracking#tracking'
     post '/rate' => 'delivery_tracking#rate'
+    post '/rate_socket_sample' => 'delivery_tracking#rate_socket_sample'
   end
+
+  # Serve websocket cable requests in-process
+  mount ActionCable.server => '/cable'
 end

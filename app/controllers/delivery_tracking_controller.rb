@@ -34,6 +34,17 @@ class DeliveryTrackingController < ApplicationController
     end
   end
 
+  def rate_socket_sample
+    Process.fork do
+      body = JSON.parse(request.body.read)
+      delivery = instance_delivery(body["delivery"])
+      shipping = delivery.parser_body(body)
+      rate = delivery.rate(shipping).first
+      ## Send message to on handle connection
+    end
+    render status: 200
+  end
+
   def instance_delivery(delivery)
     case delivery
     when "fdex"
