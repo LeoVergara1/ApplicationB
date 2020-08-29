@@ -13,6 +13,16 @@ class FedexManager < DeliveryFactory
 
   end
 
+  def tracking_info(tracking_number)
+    begin
+      results = @fedex.track(:tracking_number => tracking_number).first
+      results.first
+    rescue => exception
+      p exception
+      DeliveryStatus::EXCEPTION
+    end
+  end
+
   def tracking(tracking_number)
     begin
       results = @fedex.track(:tracking_number => tracking_number).first
@@ -25,7 +35,7 @@ class FedexManager < DeliveryFactory
   end
 
   def check_status(status)
-    DeliveryStatus.delivery_status(status) 
+    DeliveryStatus.delivery_status(status)
   end
 
   def rate(shipping_fedex)
