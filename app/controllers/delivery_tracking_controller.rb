@@ -1,9 +1,5 @@
 class DeliveryTrackingController < ApplicationController
 
-  def shipp
-    render json: {"nombre" => "Germán"}
-  end
-
   def satatus_delivery
     delivery = instance_delivery(params["delivery"])
     response = delivery.tracking(params["tracking_number"])
