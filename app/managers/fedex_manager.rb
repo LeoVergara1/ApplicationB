@@ -5,11 +5,11 @@ class FedexManager < DeliveryFactory
   include Singleton
 
   def initialize
-    @fedex = Fedex::Shipment.new(:key => 'O21wEWKhdDn2SYyb',
-                                 :password => 'db0SYxXWWh0bgRSN7Ikg9Vunz',
-                                 :account_number => '510087780',
-                                 :meter => '119009727',
-                                 :mode => 'test')
+    @fedex = Fedex::Shipment.new(:key => Rails.application.secrets.fedex[:key],
+                                 :password => Rails.application.secrets.fedex[:password],
+                                 :account_number => Rails.application.secrets.fedex[:account_number],
+                                 :meter => Rails.application.secrets.fedex[:meter],
+                                 :mode => Rails.application.secrets.fedex[:mode])
 
   end
 

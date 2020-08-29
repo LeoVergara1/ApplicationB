@@ -2,10 +2,10 @@ require "bunny"
 require 'singleton'
 
 class BunnyManager
-  include singleton
+  include Singleton
 
   def initialize
-    @conn = Bunny.new("amqps://csaizoxi:qv_k0WA2C6LxW62pKsOnacjGQhgnBaXN@coyote.rmq.cloudamqp.com/csaizoxi")
+    @conn = Bunny.new(Rails.application.secrets.bunny[:url])
     @conn.start
     @ch = @conn.create_channel
     @q  = @ch.queue("brandon")
