@@ -5,20 +5,19 @@ application up and running.
 
 Things you may want to cover:
 
-* Ruby version
+##  Versions
+  * Ruby 2.7
+  * Rails 6.0.3.2
 
-* System dependencies
 
-* Configuration
+## Database creation
+  * rake db:create
+  * rake db:migrate
 
-* Database creation
+## How to run the test suite
 
-* Database initialization
+  * bundle exec rails s
 
-* How to run the test suite
+## Run project
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+  * bundle exec rails test test/managers/fadex_manager_test.rb
