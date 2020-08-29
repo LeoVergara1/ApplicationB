@@ -5,7 +5,14 @@ class DeliveryTrackingController < ApplicationController
   end
 
   def satatus_delivery
-    render json: {"status" => DeliveryStatus::EXCEPTION}
+    delivery = instance_delivery(params["delivery"])
+    response = delivery.tracking(params["tracking_number"])
+    case response
+    when DeliveryStatus::EXCEPTION
+      render json: {"status" => DeliveryStatus::EXCEPTION}, status: 404
+    else
+      render json: {"status" => response}
+    end
   end
 
   def rate
@@ -17,6 +24,14 @@ class DeliveryTrackingController < ApplicationController
   end
 
   def tracking
+    delivery = instance_delivery(params["delivery"])
+    response = delivery.tracking_info(params["tracking_number"])
+    case response
+    when DeliveryStatus::EXCEPTION
+      render json: {"status" => DeliveryStatus::EXCEPTION}, status: 404
+    else
+      render json: response
+    end
   end
 
   def instance_delivery(delivery)
