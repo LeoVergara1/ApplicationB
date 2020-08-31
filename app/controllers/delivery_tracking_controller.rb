@@ -43,7 +43,7 @@ class DeliveryTrackingController < ApplicationController
 
   def instance_delivery(delivery)
     case delivery
-    when "fdex"
+    when "fedex"
       FedexManager.instance
     else
       raise ArgumentError, 'The argument not valid'
